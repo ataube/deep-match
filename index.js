@@ -8,7 +8,8 @@ module.exports = function deepMatch(obj, example) {
   if (example instanceof RegExp) return example.test(obj || '');
 
   // If the example is a regular expression-like string
-  if (REGEX.test(example)) {
+  // Ignore arrays because REGEX.test([/a+/]) === true
+  if (REGEX.test(example) && !(example instanceof Array)) {
     var matches = example.match(REGEX);
     return new RegExp(matches[1], matches[2]).test(obj || '');
   }

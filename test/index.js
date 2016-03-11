@@ -86,6 +86,14 @@ describe('deep-match', () => {
     expect(match(['aaa', 'bbb'], [/a+/, /c+/]), 'to be false');
   });
 
+  it('should execute regular-expression-like strings as regular expressions ', () => {
+    expect(match('aaa', '/a+/'), 'to be true');
+    expect(match('aaa', '/b+/'), 'to be false');
+    expect(match(['aaa', 'bbb'], ['/a+/']), 'to be true');
+    expect(match(['aaa', 'bbb'], ['/a+/', '/b+/']), 'to be true');
+    expect(match(['aaa', 'bbb'], ['/a+/', '/c+/']), 'to be false');
+  });
+
   it('should execute functions', () => {
     function isOne(value) {
       return value === 1;
