@@ -1,9 +1,17 @@
+var REGEX = /\/(.*?)\/([gimy]*)?$/;
+
 module.exports = function deepMatch(obj, example) {
   // If the example is a function, execute it
   if (typeof example === 'function') return example(obj);
 
   // If the example is a regular expression, match it
   if (example instanceof RegExp) return example.test(obj || '');
+
+  // If the example is a regular expression-like string
+  if (REGEX.test(example)) {
+    var matches = example.match(REGEX);
+    return new RegExp(matches[1], matches[2]).test(obj || '');
+  }
 
   // Identitical values always match.
   if (obj === example) return true;
